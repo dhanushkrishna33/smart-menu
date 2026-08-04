@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waffle Wonderland | Gourmet Pink Cream Waffle Store</title>
+  <meta name="description" content="Scan QR and order delicious, freshly baked crispy Belgian waffles, Liege sugar waffles, bubble waffles, and ice cream bowls with custom toppings!">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- QRCode JS Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ANIMATED POURING LIQUID CREAM BACKGROUND -->
+  <div class="liquid-cream-container">
+    <svg class="cream-top-wave" viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path d="M0,0 C150,90 350,-40 500,65 C650,165 800,20 950,75 C1100,130 1150,10 1200,40 L1200,0 L0,0 Z"></path>
+    </svg>
+    <!-- Dripping Liquid Drops -->
+    <div class="cream-drip-drop drip-1"></div>
+    <div class="cream-drip-drop drip-2"></div>
+    <div class="cream-drip-drop drip-3"></div>
+    <div class="cream-drip-drop drip-4"></div>
+    <div class="cream-drip-drop drip-5"></div>
+
+    <!-- Parallax Cream Blobs -->
+    <div class="cream-blob blob-pink-1"></div>
+    <div class="cream-blob blob-pink-2"></div>
+  </div>
+
+  <!-- ==========================================================================
+       NAVBAR
+       ========================================================================== -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="logo" onclick="returnToMenu()">
+        <div class="logo-icon">🍓</div>
+        <div class="logo-text">Waffle Wonderland</div>
+      </a>
+      <div class="nav-actions">
+        <button class="btn-qr-scan" onclick="openQRModal()">
+          <i class="fa-solid fa-qrcode"></i> Scan Table QR
+        </button>
+        <button class="cart-icon-btn" onclick="toggleCartDrawer(true)" aria-label="View Order Cart">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-badge" id="cartItemBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==========================================================================
+       HERO SECTION
+       ========================================================================== -->
+  <section class="hero" id="heroSection">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <span class="hero-badge">
+          <i class="fa-solid fa-heart"></i> Whipped Strawberry Cream & Waffles
+        </span>
+        <h1 class="hero-title">
+          Luscious <span>Pink Cream</span> Waffles & Delights!
+        </h1>
+        <p class="hero-subtitle">
+          Scan your table QR code to explore our delicious gourmet waffle menu in interactive 3D, customize your toppings, and place your instant order!
+        </p>
+        <div class="hero-cta-group">
+          <button class="btn-primary" onclick="openQRModal()">
+            <i class="fa-solid fa-qrcode"></i> Scan QR to Order
+          </button>
+          <button class="btn-secondary" onclick="triggerRandomWaffle()">
+            <i class="fa-solid fa-dice"></i> Surprise Me!
+          </button>
+        </div>
+      </div>
+      
+      <!-- Showcase Card -->
+      <div class="hero-card-wrapper">
+        <div class="hero-card">
+          <img src="images/belgian_nutella_waffle_1784734264994.png" alt="Belgian Nutella Waffle">
+          <div class="hero-card-info">
+            <div>
+              <h3 style="font-size: 1.1rem; color: var(--cocoa-text);">Belgian Nutella Delight</h3>
+              <p style="font-size: 0.8rem; color: var(--cocoa-light);">Nutella • Strawberries • Pink Cream</p>
+            </div>
+            <div class="hero-card-price">₹240</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       TRUE 3D ROTATING CYLINDRICAL WHEEL MENU SECTION
+       ========================================================================== -->
+  <section class="menu-section" id="menuSection">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Spinning 3D Waffle Drum</h2>
+        <p class="section-subtitle">Drag, scroll, or click arrows to spin the 3D waffle wheel surrounded by pouring whipped cream</p>
+      </div>
+
+      <div class="menu-controls">
+        <div class="search-filter-bar">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="menuSearchInput" class="search-input" placeholder="Search Nutella, Berry, Liege, Bubble waffles...">
+          </div>
+          <div class="filter-actions">
+            <button class="btn-filter-tag active" id="vegFilterBtn" onclick="toggleVegOnlyFilter(this)">
+              <i class="fa-solid fa-leaf" style="color: var(--mint-green);"></i> 100% Veg
+            </button>
+          </div>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+          <button class="tab-btn active" onclick="setCategoryFilter('all', this)">
+            <i class="fa-solid fa-border-all"></i> All Waffles
+          </button>
+          <button class="tab-btn" onclick="setCategoryFilter('belgian', this)">
+            🧇 Belgian Waffles
+          </button>
+          <button class="tab-btn" onclick="setCategoryFilter('liege', this)">
+            🍓 Pearl Liege
+          </button>
+          <button class="tab-btn" onclick="setCategoryFilter('bubble', this)">
+            🍦 Bubble Sundaes
+          </button>
+          <button class="tab-btn" onclick="setCategoryFilter('savory', this)">
+            🧀 Savory Cheesy
+          </button>
+          <button class="tab-btn" onclick="setCategoryFilter('bowls', this)">
+            🍨 Waffle Bowls
+          </button>
+          <button class="tab-btn" onclick="setCategoryFilter('drinks', this)">
+            🥤 Waffle Shakes
+          </button>
+        </div>
+      </div>
+
+      <!-- TRUE 3D CYLINDRICAL WHEEL CAROUSEL STAGE -->
+      <div class="cylinder-3d-wrapper" id="cylinder3dWrapper">
+        <div class="cylinder-3d-drum" id="cylinderDrumContainer">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+
+        <!-- 3D Wheel Navigation Arrows -->
+        <div class="wheel-nav-controls">
+          <button class="btn-wheel-nav" onclick="rotateCylinderWheel(-1)" title="Spin Left">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div style="font-family: var(--font-heading); font-size: 1rem; color: var(--pink-deep); font-weight: 700;">
+            <i class="fa-solid fa-arrows-spin"></i> Drag / Scroll to Spin 3D Wheel
+          </div>
+          <button class="btn-wheel-nav" onclick="rotateCylinderWheel(1)" title="Spin Right">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       ORDER TRACKER SCREEN
+       ========================================================================== -->
+  <section class="order-tracker-screen" id="orderTrackerScreen">
+    <div class="container">
+      <div class="tracker-card">
+        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🍓🧇✨</div>
+        <h2 style="font-size: 2rem; color: var(--cocoa-text);">Order Confirmed & Preparation Started!</h2>
+        <p style="color: var(--cocoa-light);">Our waffle chef is baking your crispy treat with fresh whipped cream right now!</p>
+
+        <div class="order-id-badge" id="trackerOrderId">#WFL-8492</div>
+
+        <div class="timer-box">
+          <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.75);">Estimated Prep Time</div>
+          <div class="timer-digits" id="prepCountdownDisplay">12:00</div>
+          <div style="font-size: 0.85rem; color: var(--pink-soft);">Live Order Status Counter</div>
+        </div>
+
+        <!-- 4-Stage Preparation Pipeline -->
+        <div class="timeline-steps">
+          <div class="step-item active" id="step-1">
+            <div class="step-icon"><i class="fa-solid fa-receipt"></i></div>
+            <div class="step-label">Order Received</div>
+          </div>
+          <div class="step-item" id="step-2">
+            <div class="step-icon"><i class="fa-solid fa-fire-burner"></i></div>
+            <div class="step-label">Pouring Batter</div>
+          </div>
+          <div class="step-item" id="step-3">
+            <div class="step-icon"><i class="fa-solid fa-stroopwafel"></i></div>
+            <div class="step-label">Drizzling Toppings</div>
+          </div>
+          <div class="step-item" id="step-4">
+            <div class="step-icon"><i class="fa-solid fa-bell-concierge"></i></div>
+            <div class="step-label">Ready for Table</div>
+          </div>
+        </div>
+
+        <!-- Order Info Summary -->
+        <div style="background: var(--cream-bg); border-radius: 16px; padding: 1.25rem; text-align: left; margin: 2rem 0; border: 1px solid rgba(255,64,129,0.2);">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <strong>Customer:</strong> <span id="trackerCustName">Guest Diner</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <strong>Table / Location:</strong> <span id="trackerTableNo">T-04</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <strong>Payment Status:</strong> <span id="trackerPayStatus" style="color: var(--mint-green); font-weight: 700;">Paid via PhonePe</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; border-top: 1px dashed rgba(255,64,129,0.2); padding-top: 0.5rem; margin-top: 0.5rem;">
+            <span>Total Amount Paid:</span> <span id="trackerTotal">₹0.00</span>
+          </div>
+        </div>
+
+        <button class="btn-primary" onclick="returnToMenu()">
+          <i class="fa-solid fa-plus"></i> Order More Waffles
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL: QR SCANNER -->
+  <div class="modal-overlay" id="qrModalOverlay">
+    <div class="qr-modal">
+      <button class="modal-close" onclick="closeModal('qrModalOverlay')"><i class="fa-solid fa-xmark"></i></button>
+      <h2 style="color: var(--cocoa-text); margin-bottom: 0.3rem;">Table Digital Menu QR</h2>
+      <p style="color: var(--cocoa-light); font-size: 0.9rem;">Scan with smartphone camera to view menu & place order</p>
+
+      <div class="qr-box-wrapper">
+        <div class="qr-scan-line"></div>
+        <div id="qrCodeContainer"></div>
+      </div>
+
+      <div style="font-size: 0.85rem; color: var(--cocoa-light); margin-bottom: 1.2rem;">
+        <i class="fa-solid fa-mobile-screen-button" style="color: var(--pink-primary);"></i> Table #04 • Waffle Wonderland Store
+      </div>
+
+      <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="closeModal('qrModalOverlay')">
+        <i class="fa-solid fa-utensils"></i> Open Store Menu Now
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: ITEM CUSTOMIZER -->
+  <div class="modal-overlay" id="customizerModalOverlay">
+    <div class="customizer-modal">
+      <button class="modal-close" onclick="closeModal('customizerModalOverlay')"><i class="fa-solid fa-xmark"></i></button>
+      <div id="customizerContent">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE-OVER DRAWER: SHOPPING CART -->
+  <div class="cart-drawer-overlay" id="cartDrawerOverlay" onclick="toggleCartDrawer(false)">
+    <div class="cart-drawer" onclick="event.stopPropagation()">
+      <div class="cart-header">
+        <h3 style="font-size: 1.3rem; color: var(--cocoa-text);"><i class="fa-solid fa-bag-shopping" style="color: var(--pink-primary);"></i> Your Waffle Basket</h3>
+        <button class="modal-close" style="position: static;" onclick="toggleCartDrawer(false)"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="cart-body">
+        <div id="cartItemsContainer">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+
+        <div class="bill-summary">
+          <h4 style="margin-bottom: 0.8rem; color: var(--cocoa-text); font-size: 0.95rem;">
+            <i class="fa-solid fa-file-invoice-dollar"></i> Detailed Bill Breakdown
+          </h4>
+          <div class="bill-row">
+            <span>Items Subtotal</span>
+            <span id="cartSubtotal">₹0.00</span>
+          </div>
+          <div class="bill-row">
+            <span>GST (5% Govt. Tax)</span>
+            <span id="cartGst">₹0.00</span>
+          </div>
+          <div class="bill-row">
+            <span>Store Packaging & Maintenance</span>
+            <span id="cartMaintenance">₹15.00</span>
+          </div>
+          <div class="bill-row total">
+            <span>Grand Total</span>
+            <span id="cartTotal">₹0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-footer">
+        <button class="btn-checkout" onclick="openCheckoutModal()">
+          <span>Proceed to Payment</span>
+          <span id="checkoutBtnTotal">₹0.00</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CHECKOUT & PAYMENT GATEWAY -->
+  <div class="modal-overlay" id="checkoutModalOverlay">
+    <div class="checkout-modal">
+      <button class="modal-close" onclick="closeModal('checkoutModalOverlay')"><i class="fa-solid fa-xmark"></i></button>
+      
+      <h2 style="color: var(--cocoa-text);">Checkout & Payment</h2>
+      <p style="color: var(--cocoa-light); font-size: 0.9rem;">Select your payment option to complete your order</p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.2rem;">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" id="custNameInput" class="form-input" placeholder="e.g. Rahul Sharma" value="Alex Morgan">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Table Number / Type</label>
+          <input type="text" id="custTableInput" class="form-input" placeholder="e.g. Table 04" value="Table 04">
+        </div>
+      </div>
+
+      <!-- Payment Tabs -->
+      <div class="payment-tabs">
+        <button class="pay-tab active" id="tab-phonepe" onclick="setPaymentGateway('phonepe')">
+          <i class="fa-solid fa-mobile-screen" style="color: var(--phonepe-purple);"></i> PhonePe / UPI
+        </button>
+        <button class="pay-tab" id="tab-card" onclick="setPaymentGateway('card')">
+          <i class="fa-regular fa-credit-card" style="color: var(--pink-primary);"></i> Credit / Debit Card
+        </button>
+        <button class="pay-tab" id="tab-cash" onclick="setPaymentGateway('cash')">
+          <i class="fa-solid fa-money-bill-wave" style="color: var(--mint-green);"></i> Cash at Counter
+        </button>
+      </div>
+
+      <!-- PhonePe View -->
+      <div id="phonepeGatewayView" class="phonepe-box">
+        <div class="phonepe-logo"><i class="fa-solid fa-bolt"></i> PhonePe / UPI Express</div>
+        <p style="font-size: 0.85rem; color: var(--cocoa-light); margin-bottom: 1rem;">
+          Scan UPI QR code using PhonePe, Paytm, or Google Pay app to pay instantly
+        </p>
+        <div id="phonepeQrContainer" style="display: flex; justify-content: center; margin-bottom: 1rem;"></div>
+        <div style="font-family: monospace; font-size: 0.85rem; background: white; padding: 0.4rem; border-radius: 8px; display: inline-block;">
+          UPI ID: wafflewonderland@upi
+        </div>
+      </div>
+
+      <!-- Card View -->
+      <div id="cardGatewayView" style="display: none;">
+        <div class="credit-card-preview">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <i class="fa-solid fa-sim-card" style="font-size: 1.8rem; color: var(--pink-soft);"></i>
+            <i class="fa-brands fa-cc-mastercard" style="font-size: 2rem;"></i>
+          </div>
+          <div class="card-number-disp" id="cardDisplayNumber">•••• •••• •••• ••••</div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+            <span id="cardDisplayName">ALEX MORGAN</span>
+            <span>EXP: 12/28</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Card Number</label>
+          <input type="text" class="form-input" placeholder="4532 •••• •••• 8892" maxlength="19" oninput="handleCardNumberInput(event)">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Expiry Date</label>
+            <input type="text" class="form-input" placeholder="MM/YY" maxlength="5">
+          </div>
+          <div class="form-group">
+            <label class="form-label">CVV Security Code</label>
+            <input type="password" class="form-input" placeholder="•••" maxlength="3">
+          </div>
+        </div>
+      </div>
+
+      <!-- Cash View -->
+      <div id="cashGatewayView" style="display: none; text-align: center; background: rgba(16, 185, 129, 0.08); border: 2px dashed var(--mint-green); padding: 1.5rem; border-radius: 18px;">
+        <i class="fa-solid fa-hand-holding-dollar" style="font-size: 2.5rem; color: var(--mint-green); margin-bottom: 0.5rem;"></i>
+        <h4 style="color: var(--cocoa-text);">Pay Cash at Counter / Table</h4>
+        <p style="font-size: 0.85rem; color: var(--cocoa-light);">
+          You can hand cash directly to our store staff when your hot waffles are delivered to your table or counter pickup.
+        </p>
+      </div>
+
+      <button class="btn-primary" style="width: 100%; margin-top: 1.5rem; justify-content: center;" onclick="processPaymentAndOrder()">
+        <i class="fa-solid fa-lock"></i> Pay <span id="checkoutFinalTotal">₹0.00</span> & Confirm Order
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast" id="appToast">
+    <i class="fa-solid fa-sparkles" style="color: var(--pink-soft);"></i>
+    <span class="toast-text">Notification message</span>
+  </div>
+
+  <!-- Custom App JS -->
+  <script src="js/app.js"></script>
+</body>
+</html>
